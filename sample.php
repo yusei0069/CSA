@@ -7,8 +7,6 @@
   <body>
     <h1>住所検索</h1>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <form action="sample.php" method="GET">
       <input type="text" name="keyword">
       <input type="hidden" name="page" value="1">
