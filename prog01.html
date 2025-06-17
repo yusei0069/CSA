@@ -1,0 +1,84 @@
+<html>
+	<head>
+		<title>科学科実験Iサンプルプログラム(JavaScript版)</title>
+        <meta charset="UTF-8">
+	<style>
+.item{
+	overflow:hidden;
+	float:left;
+	margin:10px;
+	-webkit-box-shadow: 0 5px 3px -3px #777;
+	   -moz-box-shadow: 0 5px 3px -3px #777;
+	        box-shadow: 0 5px 3px -3px #777;
+}
+.title{
+	height:32px;
+	line-height:32px;
+	font-size:16px;
+	color:#fff;
+}
+body{
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.74, #1d6723), color-stop(0.00, #a2d93f));
+	background: -webkit-linear-gradient(top, #a2d93f 0%, #1d6723 74%);
+	background: -moz-linear-gradient(top, #a2d93f 0%, #1d6723 74%);
+	background: -o-linear-gradient(top, #a2d93f 0%, #1d6723 74%);
+	background: -ms-linear-gradient(top, #a2d93f 0%, #1d6723 74%);
+	background: linear-gradient(to bottom, #a2d93f 0%, #1d6723 74%);
+}
+	</style>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script>
+	var Flickr_apikey = "fd1e42cffcde1d0f62dce642c95a8948"; // API Key
+	var Flickr_getRecent = "https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=" + Flickr_apikey + "&extras=url_s&per_page=500&format=json&jsoncallback=?";
+	$.getJSON(Flickr_getRecent,
+		function(data){
+			var colors = [
+				"#f39700",	"#e60012",	"#9caeb7",	"#00a7db",
+				"#009944",	"#d7c447",	"#9b7cb6",	"#00ada9",
+				"#bb641d",	"#e85298",	"#0079c2",	"#6cbb5a",
+				"#b6007a",	"#e5171f",	"#522886",	"#0078ba",
+				"#019a66",	"#e44d93",	"#814721",	"#a9cc51",
+				"#ee7b1a",	"#00a0de"];
+			$.each(data.photos.photo, function(c,photo){
+				if(typeof photo["url_s"] != "undefined"){
+					var title = photo["title"];
+					var url   = photo["url_s"];
+					var width = photo["width_s"];
+					var height= photo["height_s"];
+					var size  = Math.max(width,height);
+					var margin_top = (size-height)/2;
+					var margin_left= (size-width) /2;
+					var tagItem = $("<div/>")
+						.addClass("item")
+						.css("width",size+"px")
+						.css("height",(size+32)+"px")
+						.css("backgroundColor",colors[c%colors.length])
+						.css("border","1px solid " + colors[c%colors.length]);
+					var tagImage = $("<div/>")
+						.addClass("image");
+					var tagImg = $("<img/>")
+						.attr("src",url)
+						.attr("width",width)
+						.attr("height",height)
+						.css("marginBottom",margin_top+"px")
+						.css("marginTop",margin_top+"px")
+						.css("marginLeft",margin_left+"px");
+					var tagTitle = $("<div/>")
+						.addClass("title")
+						.html(title);
+					tagImg.appendTo(tagImage);
+					tagImage.appendTo(tagItem);
+					tagTitle.appendTo(tagItem);
+					tagItem.appendTo($("#base"));
+				}
+			});
+		}
+	);
+	</script>
+	</head>
+	<body>
+<h1>Flickrに最近アップロードされた500枚(JavaScript版)</h1>
+<div id="base">
+</div>
+	</body>
+</html>
