@@ -37,7 +37,7 @@ if ($stmt = $mysqli->prepare($query)) {
   $stmt->execute();
   $stmt->bind_result($addr2,$addr3,$zipcode);
   while ($stmt->fetch()) {
-    $suggest[] = $addr2 . "" . $addr3 . $zipcode;
+    $suggest[] = $addr2 . "" . $addr3;
   }
   $stmt->close();
 }
